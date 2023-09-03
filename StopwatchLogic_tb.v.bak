@@ -1,0 +1,43 @@
+module StopwatchLogic_tb;
+
+    reg CLK_100Hz;
+    reg reset_n;
+    reg hold;
+    reg start_stop;
+    wire [6:0] stopwatch_unit_mins;
+    wire [5:0] stopwatch_unit_secs;
+    wire [6:0] stopwatch_unit_decs;
+    wire stopwatch_overflow;
+
+    StopwatchLogic dut (
+        CLK_100Hz,
+        reset_n,
+        hold,
+        start_stop,
+        stopwatch_unit_mins,
+        stopwatch_unit_secs,
+        stopwatch_unit_decs,
+        stopwatch_overflow
+    );
+
+      initial begin
+        CLK_100Hz = 0;
+        reset_n = 0;
+        start_stop = 1; // Change initial value to 1
+        hold = 0;
+        #100 reset_n = 1;
+        #100 start_stop = 0; // Set start_stop to 0 first
+        #100 start_stop = 1; // Then to 1
+        #1000 hold = 0;
+        #5000 hold = 1; // Add delay before setting hold to 1
+        #1000 hold = 0;
+        repeat (9000) @(posedge CLK_100Hz);
+        $display("Time: %0d:%02d:%02d, Overflow: %b",
+            stopwatch_unit_mins, stopwatch_unit_secs, stopwatch_unit_decs, stopwatch_overflow);
+        $finish;
+    end
+
+always #10000 CLK_100Hz = ~CLK_100Hz;
+
+endmodule 
+

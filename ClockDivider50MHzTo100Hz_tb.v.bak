@@ -1,0 +1,19 @@
+`timescale 1ns / 1ps
+module ClockDivider50MHzTo100Hz;
+ // Inputs
+ reg clock_in;
+ // Outputs
+ wire clock_out;
+ // Instantiate the Device Under Test (DUT)
+ Clock_divider dut (
+  clock_in, 
+  clock_out
+ );
+ initial begin
+  // Initialize Inputs
+  clock_out = 0;
+  // create input clock 50MHz
+        forever #5000000 clock_in = ~clock_in;
+ end
+      
+endmodule

@@ -1,0 +1,28 @@
+`timescale 1ns / 1ps
+module SevenSegEncoder_tb;
+
+  // Inputs
+  reg [6:0] stopwatch_unit_mins;
+  reg [5:0] stopwatch_unit_secs;
+  reg [6:0] stopwatch_unit_decs;
+
+  // Outputs
+  wire [6:0] hex_10_mins;
+  wire [6:0] hex_1_min;
+  wire [6:0] hex_10_secs;
+  wire [6:0] hex_1_sec;
+  wire [6:0] hex_hundredths;
+  wire [6:0] hex_tenths;
+
+  // Instantiate the module to be tested
+  SevenSegEncoder DUT(
+    stopwatch_unit_mins,
+    stopwatch_unit_secs,
+    stopwatch_unit_decs,
+    hex_10_mins,
+    hex_1_min,
+    hex_10_secs,
+    hex_1_sec,
+    hex_hundredths,
+    hex_tenths
+  );

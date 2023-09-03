@@ -1,0 +1,51 @@
+`timescale 1ns / 1ps
+module Stopwatch_tb;
+
+	reg CLK_50MHz;
+	reg reset_n;
+	reg start_stop;
+	reg hold;
+	wire [6:0] ten_mins_seven_seg;
+	wire [6:0] one_min_seven_seg;
+	wire [6:0] ten_secs_seven_seg;
+	wire [6:0] one_sec_seven_seg;
+	wire [6:0] tenths_seven_seg;
+	wire [6:0] hundredths_seven_seg;
+	wire CLK_ind;
+	wire overflow_flag;
+	
+	Stopwatch stopwatch (
+		.CLK_50MHz(CLK_50MHz),
+		.reset_n(reset_n),
+		.start_stop(start_stop),
+		.hold(hold),
+		.ten_mins_seven_seg(ten_mins_seven_seg),
+		.one_min_seven_seg(one_min_seven_seg),
+		.ten_secs_seven_seg(ten_secs_seven_seg),
+		.one_sec_seven_seg(one_sec_seven_seg),
+		.tenths_seven_seg(tenths_seven_seg),
+		.hundredths_seven_seg(hundredths_seven_seg),
+		.CLK_ind(CLK_ind),
+		.overflow_flag(overflow_flag)
+	);
+
+	// Testbench initial values
+	initial begin
+		CLK_50MHz = 0;
+		reset_n = 1;
+		start_stop = 1;
+		hold = 1;
+
+		#10 reset_n = 0; // Assert reset
+		#20 reset_n = 1; // De-assert reset
+
+		#10 start_stop = 0; // Start stopwatch
+		#4000000000 start_stop = 1; // Stop stopwatch
+		
+		#100 $finish; // End simulation
+	end
+
+	// Generate a 50MHz clock signal
+	always #5 CLK_50MHz = ~CLK_50MHz;
+
+endmodule
